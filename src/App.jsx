@@ -1,117 +1,299 @@
 import { useState } from "react";
 import "./App.css";
+
+const WHATSAPP_NUMBER = "918953655971";
+
 function enquireOnWhatsApp(productName) {
-  const phoneNumber = "918953655971";
+  const message = `Hello Pandey Hardware & Furniture, I want to enquire about ${productName}. Please share the price and availability.`;
 
-  const message = `Hello Pandey Hardware, I want to enquire about ${productName}. Please share the price and availability.`;
-
-  const whatsappURL =
-    `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    message
+  )}`;
 
   window.open(whatsappURL, "_blank");
 }
+
+const categories = [
+  {
+    id: "tools",
+    name: "Tools",
+    icon: "🔧",
+    description: "Quality tools for construction, repair and everyday work.",
+  },
+  {
+    id: "plumbing",
+    name: "Plumbing",
+    icon: "🚰",
+    description: "Pipes, fittings and plumbing accessories.",
+  },
+  {
+    id: "furniture",
+    name: "Furniture",
+    icon: "🛋️",
+    description: "Beds, sofas, dining sets and home furniture.",
+  },
+  {
+    id: "plywood",
+    name: "Plywood",
+    icon: "🪵",
+    description: "All types of plywood available.",
+  },
+  {
+    id: "paint",
+    name: "Paint",
+    icon: "🎨",
+    description: "Paints in different colours, companies and qualities.",
+  },
+  {
+    id: "door",
+    name: "Door",
+    icon: "🚪",
+    description: "Different door sizes and colours available.",
+  },
+  {
+    id: "mica",
+    name: "Mica",
+    icon: "◼️",
+    description: "Different mica colours and sizes.",
+  },
+  {
+    id: "box",
+    name: "Box",
+    icon: "📦",
+    description: "Boxes available in different sizes.",
+  },
+  {
+    id: "tiles",
+    name: "Tiles",
+    icon: "🧱",
+    description: "Wall tiles, floor tiles, marble and granite.",
+  },
+];
+
 const products = [
+  // TOOLS
   {
-    name: "Professional Hammer",
-    category: "hardware",
-    categoryName: "HARDWARE",
+    name: "Hammer",
+    category: "tools",
     icon: "🔨",
-    description: "Heavy-duty hammer for construction and repair work."
+    description: "Quality hammer for construction and repair work.",
   },
-
   {
-    name: "Screwdriver Set",
-    category: "hardware",
-    categoryName: "HARDWARE",
+    name: "Screwdriver",
+    category: "tools",
     icon: "🪛",
-    description: "Durable screwdriver set for multiple applications."
+    description: "Durable screwdrivers for different applications.",
   },
-
   {
     name: "Nuts & Bolts",
-    category: "hardware",
-    categoryName: "HARDWARE",
+    category: "tools",
     icon: "🔩",
-    description: "Strong and reliable fastening solutions."
+    description: "Strong nuts and bolts available in different sizes.",
   },
-
   {
-    name: "Electrical Accessories",
-    category: "hardware",
-    categoryName: "HARDWARE",
-    icon: "⚡",
-    description: "Essential electrical accessories for different applications."
+    name: "Sandpaper",
+    category: "tools",
+    icon: "📄",
+    description: "Sandpaper for smooth finishing and polishing.",
   },
-
   {
-    name: "Sofa Set",
-    category: "furniture",
-    categoryName: "FURNITURE",
-    icon: "🛋️",
-    description: "Comfortable and stylish sofa sets for your living room."
+    name: "Kills",
+    category: "tools",
+    icon: "🛠️",
+    description: "Quality hardware item available for your requirements.",
   },
 
+  // PLUMBING
   {
-    name: "Dining Set",
-    category: "furniture",
-    categoryName: "FURNITURE",
-    icon: "🍽️",
-    description: "Dining table and chairs for your home."
+    name: "Pipe",
+    category: "plumbing",
+    icon: "🚰",
+    description: "Different pipe sizes available.",
   },
-
   {
-    name: "Singerdan",
-    category: "furniture",
-    categoryName: "FURNITURE",
-    icon: "🗄️",
-    description: "Stylish storage furniture for bedroom and home."
+    name: "L-Bow",
+    category: "plumbing",
+    icon: "↪️",
+    description: "Quality L-Bow plumbing fittings.",
   },
-
   {
-    name: "Double Bed",
-    category: "furniture",
-    categoryName: "FURNITURE",
-    icon: "🛏️",
-    description: "Strong and spacious double bed for your bedroom."
+    name: "T-Shape",
+    category: "plumbing",
+    icon: "🔱",
+    description: "T-Shape plumbing fittings in different sizes.",
+  },
+  {
+    name: "Other Plumbing Items",
+    category: "plumbing",
+    icon: "🔧",
+    description: "Other plumbing items and accessories available.",
   },
 
+  // FURNITURE
   {
     name: "Single Bed",
     category: "furniture",
-    categoryName: "FURNITURE",
     icon: "🛏️",
-    description: "Comfortable and durable single bed for bedrooms."
+    description: "Strong and comfortable single beds.",
   },
-
+  {
+    name: "Double Bed",
+    category: "furniture",
+    icon: "🛏️",
+    description: "Spacious and durable double beds.",
+  },
+  {
+    name: "Sofa Set",
+    category: "furniture",
+    icon: "🛋️",
+    description: "Comfortable and stylish sofa sets.",
+  },
+  {
+    name: "Dining Set",
+    category: "furniture",
+    icon: "🍽️",
+    description: "Dining tables and chairs for your home.",
+  },
+  {
+    name: "Dressing",
+    category: "furniture",
+    icon: "🪞",
+    description: "Stylish dressing furniture for bedrooms.",
+  },
   {
     name: "Table",
     category: "furniture",
-    categoryName: "FURNITURE",
     icon: "🪑",
-    description: "Durable tables for home and office requirements."
-  }
+    description: "Tables for home and office requirements.",
+  },
+  {
+    name: "Chair",
+    category: "furniture",
+    icon: "🪑",
+    description: "Comfortable chairs for home and office.",
+  },
+  {
+    name: "Almirah",
+    category: "furniture",
+    icon: "🚪",
+    description: "Practical storage furniture for your home.",
+  },
+
+  // PLYWOOD
+  {
+    name: "All Types of Plywood",
+    category: "plywood",
+    icon: "🪵",
+    description: "All types of plywood available.",
+  },
+
+  // PAINT
+  {
+    name: "All Types of Paint",
+    category: "paint",
+    icon: "🎨",
+    description: "All types of paint available.",
+  },
+  {
+    name: "All Colours",
+    category: "paint",
+    icon: "🌈",
+    description: "All colours available.",
+  },
+  {
+    name: "All Companies",
+    category: "paint",
+    icon: "🏷️",
+    description: "Paint from different companies available.",
+  },
+  {
+    name: "All Quality",
+    category: "paint",
+    icon: "⭐",
+    description: "Different quality options available.",
+  },
+
+  // DOOR
+  {
+    name: "Different Door Sizes & Colours",
+    category: "door",
+    icon: "🚪",
+    description: "Different door sizes and colours available.",
+  },
+
+  // MICA
+  {
+    name: "Different Mica Colours & Sizes",
+    category: "mica",
+    icon: "◼️",
+    description: "Different mica colours and sizes available.",
+  },
+
+  // BOX
+  {
+    name: "All Sizes of Box",
+    category: "box",
+    icon: "📦",
+    description: "Boxes available in all sizes.",
+  },
+
+  // TILES
+  {
+    name: "Wall Tiles",
+    category: "tiles",
+    icon: "🧱",
+    description: "Wall tiles available for different spaces.",
+  },
+  {
+    name: "Floor Tiles",
+    category: "tiles",
+    icon: "⬜",
+    description: "Floor tiles available for different spaces.",
+  },
+  {
+    name: "Marble",
+    category: "tiles",
+    icon: "⬜",
+    description: "Marble available for different requirements.",
+  },
+  {
+    name: "Granite",
+    category: "tiles",
+    icon: "⬛",
+    description: "Granite available for different requirements.",
+  },
 ];
 
 function App() {
-  const [filter, setFilter] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
+
+  const filteredProducts = products.filter((product) => {
+    const categoryMatch =
+      activeCategory === "all" || product.category === activeCategory;
+
+    const searchMatch = product.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    return categoryMatch && searchMatch;
+  });
+
   return (
     <div className="app">
 
-      {/* ================= NAVBAR ================= */}
-
+      {/* NAVBAR */}
       <header className="navbar">
-
-        <div className="logo">
+        <a href="#home" className="logo">
           <span className="logo-icon">🔧</span>
           <span>Pandey Hardware</span>
-        </div>
+        </a>
 
         <nav className="nav-links">
           <a href="#home">Home</a>
-         <a href="#categories">Hardware</a>
-         <a href="#furniture">Furniture</a>
-         <a href="#products">Products</a>
+          <a href="#categories">Categories</a>
+          <a href="#products">Products</a>
+          <a href="#furniture">Furniture</a>
           <a href="#about">About Us</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -119,723 +301,255 @@ function App() {
         <a href="#contact" className="nav-button">
           Get Quote
         </a>
-
       </header>
 
-
-      {/* ================= HERO SECTION ================= */}
-
+      {/* HERO */}
       <section className="hero" id="home">
-
         <div className="hero-overlay"></div>
 
         <div className="hero-content">
-
-          <div className="hero-tag">
-            YOUR TRUSTED HARDWARE STORE
-          </div>
+          <span className="hero-tag">YOUR TRUSTED HARDWARE STORE</span>
 
           <h1>
             Quality Hardware
             <br />
-            <span>For Every Project</span>
+            <span>& Furniture For Every Home</span>
           </h1>
 
           <p>
-            From professional tools to electrical, plumbing and
-            construction supplies, find everything you need
-            for your next project.
+            From professional tools and plumbing supplies to plywood,
+            paints, doors, tiles and beautiful furniture — find what
+            you need for your home and project.
           </p>
 
           <div className="hero-buttons">
-
             <a href="#products" className="btn primary-btn">
-              Explore Products
-              <span>→</span>
+              Explore Products →
             </a>
 
             <a href="#contact" className="btn secondary-btn">
               Contact Us
             </a>
-
           </div>
-
         </div>
-
       </section>
 
-
-      {/* ================= TRUST SECTION ================= */}
-
+      {/* TRUST */}
       <section className="trust-section">
-
         <div className="trust-container">
 
           <div className="trust-item">
-
-            <div className="trust-icon">
-              ✓
-            </div>
-
+            <div className="trust-icon">✓</div>
             <div>
               <h3>Quality Products</h3>
               <p>Reliable & durable</p>
             </div>
-
           </div>
 
-
           <div className="trust-item">
-
-            <div className="trust-icon">
-              🚚
-            </div>
-
+            <div className="trust-icon">🚚</div>
             <div>
               <h3>Fast Service</h3>
               <p>Quick & convenient</p>
             </div>
-
           </div>
 
-
           <div className="trust-item">
-
-            <div className="trust-icon">
-              ₹
-            </div>
-
+            <div className="trust-icon">₹</div>
             <div>
               <h3>Best Prices</h3>
               <p>Competitive pricing</p>
             </div>
-
           </div>
 
-
           <div className="trust-item">
-
-            <div className="trust-icon">
-              🤝
-            </div>
-
+            <div className="trust-icon">🤝</div>
             <div>
               <h3>Trusted Service</h3>
               <p>Customer satisfaction</p>
             </div>
-
           </div>
 
         </div>
-
       </section>
 
-
-      {/* ================= CATEGORIES ================= */}
-
+      {/* CATEGORIES */}
       <section className="categories-section" id="categories">
-
         <div className="section-header">
-
-          <span className="section-tag">
-            WHAT WE OFFER
-          </span>
-
-          <h2>
-            Shop By Category
-          </h2>
-
-          <p>
-            Explore our wide range of hardware products
-          </p>
-
+          <span className="section-tag">WHAT WE OFFER</span>
+          <h2>Shop By Category</h2>
+          <p>Explore our complete range of products</p>
         </div>
-
 
         <div className="category-grid">
+          {categories.map((category) => (
+            <div className="category-card" key={category.id}>
 
-          {/* Tools */}
+              <div className={`category-image ${category.id}-bg`}>
+                <span>{category.icon}</span>
+              </div>
 
-          <div className="category-card">
+              <div className="category-info">
+                <h3>{category.name}</h3>
 
-            <div className="category-image tools-bg">
-              🔧
-            </div>
+                <p>{category.description}</p>
 
-            <div className="category-info">
-
-              <h3>Tools</h3>
-
-              <p>
-                Hand tools, power tools and professional
-                equipment for every job.
-              </p>
-
-              <a href="#products">
-                View Products →
-              </a>
-
-            </div>
-
-          </div>
-
-
-          {/* Electrical */}
-
-          <div className="category-card">
-
-            <div className="category-image electrical-bg">
-              ⚡
-            </div>
-
-            <div className="category-info">
-
-              <h3>Electrical</h3>
-
-              <p>
-                Wires, switches, accessories and
-                electrical supplies.
-              </p>
-
-              <a href="#products">
-                View Products →
-              </a>
+                <button
+                  onClick={() => {
+                    setActiveCategory(category.id);
+                    document
+                      .getElementById("products")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  View Products →
+                </button>
+              </div>
 
             </div>
+          ))}
+        </div>
+      </section>
 
-          </div>
+      {/* PRODUCTS */}
+      <section className="products-section" id="products">
 
-
-          {/* Plumbing */}
-
-          <div className="category-card">
-
-            <div className="category-image plumbing-bg">
-              🚰
-            </div>
-
-            <div className="category-info">
-
-              <h3>Plumbing</h3>
-
-              <p>
-                Pipes, fittings, taps and plumbing
-                accessories.
-              </p>
-
-              <a href="#products">
-                View Products →
-              </a>
-
-            </div>
-
-          </div>
-
-
-          {/* Fasteners */}
-
-          <div className="category-card">
-
-            <div className="category-image fasteners-bg">
-              🔩
-            </div>
-
-            <div className="category-info">
-
-              <h3>Fasteners</h3>
-
-              <p>
-                Nuts, bolts, screws and other
-                fastening products.
-              </p>
-
-              <a href="#products">
-                View Products →
-              </a>
-
-            </div>
-
-          </div>
-
-
-          {/* Paint */}
-
-          <div className="category-card">
-
-            <div className="category-image paint-bg">
-              🎨
-            </div>
-
-            <div className="category-info">
-
-              <h3>Paint & Accessories</h3>
-
-              <p>
-                Brushes, rollers and painting
-                accessories.
-              </p>
-
-              <a href="#products">
-                View Products →
-              </a>
-
-            </div>
-
-          </div>
-
-
-          {/* Building */}
-
-          <div className="category-card">
-
-            <div className="category-image building-bg">
-              🧱
-            </div>
-
-            <div className="category-info">
-
-              <h3>Building Materials</h3>
-
-              <p>
-                Essential materials for construction
-                and renovation.
-              </p>
-
-              <a href="#products">
-                View Products →
-              </a>
-
-            </div>
-
-          </div>
-
+        <div className="section-header">
+          <span className="section-tag">OUR PRODUCTS</span>
+          <h2>Hardware, Furniture & More</h2>
+          <p>
+            Browse our products and enquire directly on WhatsApp.
+          </p>
         </div>
 
-      </section>
-      {/* ================= FURNITURE ================= */}
-
-<section className="furniture-section" id="furniture">
-
-  <div className="section-header">
-
-    <span className="section-tag">
-      FURNITURE COLLECTION
-    </span>
-
-    <h2>
-      Furniture For Your Home
-    </h2>
-
-    <p>
-      Comfortable, stylish and durable furniture for every space
-    </p>
-
-  </div>
-
-
-  <div className="furniture-grid">
-
-
-    {/* Sofa Set */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image sofa-bg">
-        🛋️
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Sofa Sets
-        </h3>
-
-        <p>
-          Comfortable and stylish sofa sets
-          for your living room.
-        </p>
-
-       <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Sofa Set")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-    {/* Dining Set */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image dining-bg">
-        🍽️
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Dining Sets
-        </h3>
-
-        <p>
-          Dining tables and chairs for
-          your dining space.
-        </p>
-
-       <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Dining Set")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-    {/* Singerdan */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image singerdan-bg">
-        🗄️
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Singerdan
-        </h3>
-
-        <p>
-          Beautiful storage furniture for
-          your bedroom and home.
-        </p>
-
-      <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Singerdan")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-    {/* Single Bed */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image single-bed-bg">
-        🛏️
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Single Beds
-        </h3>
-
-        <p>
-          Strong and comfortable single beds
-          for bedrooms.
-        </p>
-
-       <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Single Bed")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-    {/* Double Bed */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image double-bed-bg">
-        🛏️
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Double Beds
-        </h3>
-
-        <p>
-          Spacious and durable double beds
-          for your bedroom.
-        </p>
-
-        <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Double Bed")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-    {/* Tables */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image table-bg">
-        🪑
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Tables
-        </h3>
-
-        <p>
-          Different styles of tables for
-          home and office.
-        </p>
-
-       <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Table")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-    {/* Chairs */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image chair-bg">
-        🪑
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Chairs
-        </h3>
-
-        <p>
-          Comfortable chairs for home,
-          office and dining areas.
-        </p>
-
-        <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Chair")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-    {/* Almirah */}
-
-    <div className="furniture-card">
-
-      <div className="furniture-image almirah-bg">
-        🚪
-      </div>
-
-      <div className="furniture-info">
-
-        <span>FURNITURE</span>
-
-        <h3>
-          Almirah & Storage
-        </h3>
-
-        <p>
-          Practical storage solutions for
-          bedrooms and homes.
-        </p>
-
-        <button
-  className="furniture-enquire"
-  onClick={() => enquireOnWhatsApp("Almirah")}
->
-  Enquire on WhatsApp →
-</button>
-
-      </div>
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-     {/* ================= PRODUCTS ================= */}
-
-<section className="products-section" id="products">
-
-  <div className="section-header">
-
-    <span className="section-tag">
-      OUR PRODUCTS
-    </span>
-
-    <h2>
-      Hardware & Furniture
-    </h2>
-
-    <p>
-      Browse our products and send us your enquiry directly.
-    </p>
-
-  </div>
-
-
-  {/* PRODUCT FILTER */}
-
-  <div className="product-filter">
-
-  <button
-    className={filter === "all" ? "filter-active" : ""}
-    onClick={() => setFilter("all")}
-  >
-    All
-  </button>
-
-  <button
-    className={filter === "hardware" ? "filter-active" : ""}
-    onClick={() => setFilter("hardware")}
-  >
-    Hardware
-  </button>
-
-  <button
-    className={filter === "furniture" ? "filter-active" : ""}
-    onClick={() => setFilter("furniture")}
-  >
-    Furniture
-  </button>
-
-</div>
-
-
-  {/* PRODUCT GRID */}
-
-  <div className="product-grid">
-    <div className="product-search">
-
-  <input
-    type="text"
-    placeholder="Search products..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
-
-  <span>🔍</span>
-
-</div>
-
-  {products
-  .filter(
-    (product) =>
-      (filter === "all" || product.category === filter) &&
-      product.name.toLowerCase().includes(search.toLowerCase())
-  )
-  .map((product) => (
-
-    <div className="product-card" key={product.name}>
-
-      <div className="product-image">
-        {product.icon}
-      </div>
-
-      <div className="product-details">
-
-        <span className="product-category">
-          {product.categoryName}
-        </span>
-
-        <h3>
-          {product.name}
-        </h3>
-
-        <p>
-          {product.description}
-        </p>
-
-        <div className="product-bottom">
-
-          <span className="price">
-            Contact for Price
-          </span>
+        {/* SEARCH */}
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <span>🔍</span>
+        </div>
+
+        {/* FILTER */}
+        <div className="product-filter">
 
           <button
-            onClick={() =>
-              enquireOnWhatsApp(product.name)
-            }
+            className={activeCategory === "all" ? "filter-active" : ""}
+            onClick={() => setActiveCategory("all")}
           >
-            Enquire
+            All
           </button>
+
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              className={
+                activeCategory === category.id ? "filter-active" : ""
+              }
+              onClick={() => setActiveCategory(category.id)}
+            >
+              {category.name}
+            </button>
+          ))}
 
         </div>
 
-      </div>
+        {/* PRODUCT GRID */}
+        <div className="product-grid">
 
-    </div>
+          {filteredProducts.map((product) => (
+            <div className="product-card" key={product.name}>
 
-  ))}
-  </div>
+              <div className={`product-image ${product.category}-product-bg`}>
+                <span>{product.icon}</span>
+              </div>
 
-</section>
+              <div className="product-details">
 
+                <span className="product-category">
+                  {product.category.toUpperCase()}
+                </span>
 
-      {/* ================= ABOUT ================= */}
+                <h3>{product.name}</h3>
 
+                <p>{product.description}</p>
+
+                <div className="product-bottom">
+                  <span className="price">Contact for Price</span>
+
+                  <button
+                    onClick={() => enquireOnWhatsApp(product.name)}
+                  >
+                    Enquire
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          ))}
+
+        </div>
+
+        {filteredProducts.length === 0 && (
+          <div className="no-products">
+            <h3>No product found</h3>
+            <p>Try searching for another product.</p>
+          </div>
+        )}
+
+      </section>
+
+      {/* FURNITURE FEATURE */}
+      <section className="furniture-section" id="furniture">
+
+        <div className="section-header">
+          <span className="section-tag">FURNITURE COLLECTION</span>
+          <h2>Furniture For Your Home</h2>
+          <p>
+            Comfortable, stylish and durable furniture for every space.
+          </p>
+        </div>
+
+        <div className="furniture-grid">
+
+          {products
+            .filter((product) => product.category === "furniture")
+            .map((product) => (
+              <div className="furniture-card" key={product.name}>
+
+                <div className="furniture-image">
+                  <span>{product.icon}</span>
+                </div>
+
+                <div className="furniture-info">
+                  <span>FURNITURE</span>
+
+                  <h3>{product.name}</h3>
+
+                  <p>{product.description}</p>
+
+                  <button
+                    onClick={() => enquireOnWhatsApp(product.name)}
+                  >
+                    Enquire on WhatsApp →
+                  </button>
+                </div>
+
+              </div>
+            ))}
+
+        </div>
+      </section>
+
+      {/* ABOUT */}
       <section className="about-section" id="about">
 
         <div className="about-image">
-
-          <div className="about-image-content">
-            🛠️
-          </div>
-
+          <div className="about-image-content">🏠</div>
         </div>
-
 
         <div className="about-text">
 
@@ -850,214 +564,124 @@ function App() {
           </h2>
 
           <p>
-            Pandey Hardware is committed to providing
-            quality hardware products and dependable
-            service to customers.
+            Pandey Hardware is your one-stop destination for
+            hardware, plumbing, tools, plywood, paints, doors,
+            mica, boxes, tiles and furniture.
           </p>
 
           <p>
-            Whether you are a homeowner, contractor,
-            builder or professional, we aim to provide
-            the products you need for your project.
+            We aim to provide quality products, competitive
+            prices and dependable service for homeowners,
+            contractors, builders and professionals.
           </p>
 
-
           <div className="about-list">
-
-            <div>
-              <span>✓</span>
-              Quality Products
-            </div>
-
-            <div>
-              <span>✓</span>
-              Competitive Prices
-            </div>
-
-            <div>
-              <span>✓</span>
-              Wide Product Range
-            </div>
-
-            <div>
-              <span>✓</span>
-              Customer Support
-            </div>
-
+            <div><span>✓</span> Quality Products</div>
+            <div><span>✓</span> Competitive Prices</div>
+            <div><span>✓</span> Wide Product Range</div>
+            <div><span>✓</span> Customer Support</div>
           </div>
 
         </div>
-
       </section>
 
-
-      {/* ================= CTA ================= */}
-
+      {/* CTA */}
       <section className="cta-section">
 
         <div className="cta-content">
-
-          <span>
-            HAVE A HARDWARE REQUIREMENT?
-          </span>
+          <span>HAVE A REQUIREMENT?</span>
 
           <h2>
             Let's Find The Right Product For You.
           </h2>
 
           <p>
-            Contact us for product availability,
-            pricing and enquiries.
+            Contact us for product availability, pricing and enquiries.
           </p>
 
-          <a href="#contact" className="btn primary-btn">
-            Contact Us →
-          </a>
-
+          <button
+            className="btn primary-btn"
+            onClick={() => enquireOnWhatsApp("Product Enquiry")}
+          >
+            Enquire on WhatsApp →
+          </button>
         </div>
 
       </section>
 
-
-      {/* ================= CONTACT ================= */}
-
+      {/* CONTACT */}
       <section className="contact-section" id="contact">
 
         <div className="section-header">
-
-          <span className="section-tag">
-            CONTACT US
-          </span>
-
-          <h2>
-            Get In Touch
-          </h2>
-
+          <span className="section-tag">CONTACT US</span>
+          <h2>Get In Touch</h2>
           <p>
-            We are happy to help with your hardware requirements.
+            We are happy to help with your hardware and furniture requirements.
           </p>
-
         </div>
-
 
         <div className="contact-grid">
 
-
           <div className="contact-card">
-
-            <div className="contact-icon">
-              📞
-            </div>
-
-            <h3>
-              Call Us
-            </h3>
-
-            <p>
-              +91 XXXXXXXXXX
-            </p>
-
+            <div className="contact-icon">📞</div>
+            <h3>Call Us</h3>
+            <p>+91 8953655971</p>
           </div>
 
-
           <div className="contact-card">
+            <div className="contact-icon">💬</div>
+            <h3>WhatsApp</h3>
+            <p>Send us your enquiry</p>
 
-            <div className="contact-icon">
-              💬
-            </div>
-
-            <h3>
-              WhatsApp
-            </h3>
-
-            <p>
-              Send us your enquiry
-            </p>
-
+            <button
+              onClick={() => enquireOnWhatsApp("General Enquiry")}
+            >
+              WhatsApp Us
+            </button>
           </div>
 
-
           <div className="contact-card">
-
-            <div className="contact-icon">
-              📍
-            </div>
-
-            <h3>
-              Visit Our Store
-            </h3>
-
-            <p>
-              Your Business Address
-            </p>
-
+            <div className="contact-icon">📍</div>
+            <h3>Visit Our Store</h3>
+            <p>Your Business Address</p>
           </div>
 
-
           <div className="contact-card">
-
-            <div className="contact-icon">
-              ✉️
-            </div>
-
-            <h3>
-              Email Us
-            </h3>
-
-            <p>
-              your@email.com
-            </p>
-
+            <div className="contact-icon">✉️</div>
+            <h3>Email Us</h3>
+            <p>your@email.com</p>
           </div>
 
         </div>
-
       </section>
 
-
-      {/* ================= FOOTER ================= */}
-
+      {/* FOOTER */}
       <footer className="footer">
 
         <div className="footer-logo">
-          🔧 Pandey Hardware
+          🔧 Pandey Hardware & Furniture
         </div>
 
         <p>
-          Quality Hardware • Trusted Service
+          Quality Products • Trusted Service • Complete Solutions
         </p>
 
         <div className="footer-links">
-
           <a href="#home">Home</a>
           <a href="#categories">Categories</a>
           <a href="#products">Products</a>
+          <a href="#furniture">Furniture</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
-
         </div>
 
         <div className="footer-line"></div>
 
         <p className="copyright">
-          © 2026 Pandey Hardware. All Rights Reserved.
+          © 2026 Pandey Hardware & Furniture. All Rights Reserved.
         </p>
 
       </footer>
-            
-
-      {/* ================= WHATSAPP FLOATING BUTTON ================= */}
-
-      <a
-        href="https://wa.me/918953655971"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="whatsapp-float"
-      >
-        💬
-      </a>
-
-    
 
     </div>
   );
