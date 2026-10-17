@@ -280,8 +280,8 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/enquiries",
-        {
+  "https://pandey-hardware-furniture-1.onrender.com/api/enquiries",
+  {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
