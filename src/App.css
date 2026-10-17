@@ -933,3 +933,141 @@ a {
     white-space: nowrap;
   }
 }
+/* ================= ENQUIRY POPUP ================= */
+
+.enquiry-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.enquiry-box {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.enquiry-box h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.enquiry-box p {
+  margin-bottom: 22px;
+  color: #666;
+}
+
+.enquiry-box input,
+.enquiry-box textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  margin-bottom: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+}
+
+.enquiry-box input:focus,
+.enquiry-box textarea:focus {
+  border-color: #e67e22;
+}
+
+.enquiry-box textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.enquiry-close {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+  color: #555;
+}
+
+.enquiry-submit {
+  width: 100%;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  background: #e67e22;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.enquiry-submit:hover {
+  opacity: 0.9;
+}
+.enquiry-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.enquiry-box {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.enquiry-box input,
+.enquiry-box textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  margin-bottom: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.enquiry-box textarea {
+  min-height: 110px;
+}
+
+.enquiry-submit {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #e67e22;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.enquiry-close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  border: none;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+}

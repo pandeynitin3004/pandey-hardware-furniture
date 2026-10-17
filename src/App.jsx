@@ -3,16 +3,6 @@ import "./App.css";
 
 const WHATSAPP_NUMBER = "918953655971";
 
-function enquireOnWhatsApp(productName) {
-  const message = `Hello Pandey Hardware & Furniture, I want to enquire about ${productName}. Please share the price and availability.`;
-
-  const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    message
-  )}`;
-
-  window.open(whatsappURL, "_blank");
-}
-
 const categories = [
   {
     id: "tools",
@@ -268,9 +258,96 @@ function App() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
 
+  const [showEnquiry, setShowEnquiry] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState("");
+
+  const [enquiryData, setEnquiryData] = useState({
+    name: "",
+    phone: "",
+    message: "",
+  });
+
+  async function submitEnquiry() {
+    if (!enquiryData.name.trim()) {
+      alert("Please enter your name.");
+      return;
+    }
+
+    if (!enquiryData.phone.trim()) {
+      alert("Please enter your phone number.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/enquiries",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: enquiryData.name,
+            phone: enquiryData.phone,
+            product: selectedProduct,
+            message: enquiryData.message,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!data.success) {
+        alert("Failed to save enquiry.");
+        return;
+      }
+
+      const whatsappMessage = `New Enquiry - Pandey Hardware
+
+Name: ${enquiryData.name}
+Phone: ${enquiryData.phone}
+Product: ${selectedProduct}
+Message: ${enquiryData.message || "No message"}`;
+
+      const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+        whatsappMessage
+      )}`;
+
+      setShowEnquiry(false);
+
+      setEnquiryData({
+        name: "",
+        phone: "",
+        message: "",
+      });
+
+      window.open(whatsappURL, "_blank");
+
+      alert("Enquiry saved successfully!");
+    } catch (error) {
+      console.error("Enquiry error:", error);
+      alert(
+        "Server se connection nahi ho raha. Make sure backend is running."
+      );
+    }
+  }
+
+  function openEnquiry(productName) {
+    setSelectedProduct(productName);
+
+    setEnquiryData({
+      name: "",
+      phone: "",
+      message: "",
+    });
+
+    setShowEnquiry(true);
+  }
+
   const filteredProducts = products.filter((product) => {
     const categoryMatch =
-      activeCategory === "all" || product.category === activeCategory;
+      activeCategory === "all" ||
+      product.category === activeCategory;
 
     const searchMatch = product.name
       .toLowerCase()
@@ -281,6 +358,72 @@ function App() {
 
   return (
     <div className="app">
+
+      {/* ENQUIRY POPUP */}
+      {showEnquiry && (
+        <div className="enquiry-overlay">
+          <div className="enquiry-box">
+
+            <button
+              className="enquiry-close"
+              onClick={() => setShowEnquiry(false)}
+            >
+              ×
+            </button>
+
+            <span className="section-tag">PRODUCT ENQUIRY</span>
+
+            <h2>Send Your Enquiry</h2>
+
+            <p className="enquiry-product">
+              Product: <strong>{selectedProduct}</strong>
+            </p>
+
+            <input
+              type="text"
+              placeholder="Your Name"
+              value={enquiryData.name}
+              onChange={(e) =>
+                setEnquiryData({
+                  ...enquiryData,
+                  name: e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="tel"
+              placeholder="Your Phone Number"
+              value={enquiryData.phone}
+              onChange={(e) =>
+                setEnquiryData({
+                  ...enquiryData,
+                  phone: e.target.value,
+                })
+              }
+            />
+
+            <textarea
+              placeholder="Your Message (optional)"
+              value={enquiryData.message}
+              onChange={(e) =>
+                setEnquiryData({
+                  ...enquiryData,
+                  message: e.target.value,
+                })
+              }
+            />
+
+            <button
+              className="enquiry-submit"
+              onClick={submitEnquiry}
+            >
+              Submit Enquiry →
+            </button>
+
+          </div>
+        </div>
+      )}
 
       {/* NAVBAR */}
       <header className="navbar">
@@ -308,7 +451,9 @@ function App() {
         <div className="hero-overlay"></div>
 
         <div className="hero-content">
-          <span className="hero-tag">YOUR TRUSTED HARDWARE STORE</span>
+          <span className="hero-tag">
+            YOUR TRUSTED HARDWARE STORE
+          </span>
 
           <h1>
             Quality Hardware
@@ -317,9 +462,9 @@ function App() {
           </h1>
 
           <p>
-            From professional tools and plumbing supplies to plywood,
-            paints, doors, tiles and beautiful furniture — find what
-            you need for your home and project.
+            From professional tools and plumbing supplies to
+            plywood, paints, doors, tiles and beautiful furniture
+            — find what you need for your home and project.
           </p>
 
           <div className="hero-buttons">
@@ -374,18 +519,31 @@ function App() {
       </section>
 
       {/* CATEGORIES */}
-      <section className="categories-section" id="categories">
+      <section
+        className="categories-section"
+        id="categories"
+      >
         <div className="section-header">
-          <span className="section-tag">WHAT WE OFFER</span>
+          <span className="section-tag">
+            WHAT WE OFFER
+          </span>
+
           <h2>Shop By Category</h2>
-          <p>Explore our complete range of products</p>
+
+          <p>
+            Explore our complete range of products
+          </p>
         </div>
 
         <div className="category-grid">
           {categories.map((category) => (
-            <div className="category-card" key={category.id}>
-
-              <div className={`category-image ${category.id}-bg`}>
+            <div
+              className="category-card"
+              key={category.id}
+            >
+              <div
+                className={`category-image ${category.id}-bg`}
+              >
                 <span>{category.icon}</span>
               </div>
 
@@ -397,28 +555,36 @@ function App() {
                 <button
                   onClick={() => {
                     setActiveCategory(category.id);
+
                     document
                       .getElementById("products")
-                      ?.scrollIntoView({ behavior: "smooth" });
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      });
                   }}
                 >
                   View Products →
                 </button>
               </div>
-
             </div>
           ))}
         </div>
       </section>
 
       {/* PRODUCTS */}
-      <section className="products-section" id="products">
-
+      <section
+        className="products-section"
+        id="products"
+      >
         <div className="section-header">
-          <span className="section-tag">OUR PRODUCTS</span>
+          <span className="section-tag">
+            OUR PRODUCTS
+          </span>
+
           <h2>Hardware, Furniture & More</h2>
+
           <p>
-            Browse our products and enquire directly on WhatsApp.
+            Browse our products and enquire directly.
           </p>
         </div>
 
@@ -428,8 +594,11 @@ function App() {
             type="text"
             placeholder="Search products..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
           />
+
           <span>🔍</span>
         </div>
 
@@ -437,8 +606,14 @@ function App() {
         <div className="product-filter">
 
           <button
-            className={activeCategory === "all" ? "filter-active" : ""}
-            onClick={() => setActiveCategory("all")}
+            className={
+              activeCategory === "all"
+                ? "filter-active"
+                : ""
+            }
+            onClick={() =>
+              setActiveCategory("all")
+            }
           >
             All
           </button>
@@ -447,9 +622,13 @@ function App() {
             <button
               key={category.id}
               className={
-                activeCategory === category.id ? "filter-active" : ""
+                activeCategory === category.id
+                  ? "filter-active"
+                  : ""
               }
-              onClick={() => setActiveCategory(category.id)}
+              onClick={() =>
+                setActiveCategory(category.id)
+              }
             >
               {category.name}
             </button>
@@ -461,9 +640,13 @@ function App() {
         <div className="product-grid">
 
           {filteredProducts.map((product) => (
-            <div className="product-card" key={product.name}>
-
-              <div className={`product-image ${product.category}-product-bg`}>
+            <div
+              className="product-card"
+              key={product.name}
+            >
+              <div
+                className={`product-image ${product.category}-product-bg`}
+              >
                 <span>{product.icon}</span>
               </div>
 
@@ -478,10 +661,14 @@ function App() {
                 <p>{product.description}</p>
 
                 <div className="product-bottom">
-                  <span className="price">Contact for Price</span>
+                  <span className="price">
+                    Contact for Price
+                  </span>
 
                   <button
-                    onClick={() => enquireOnWhatsApp(product.name)}
+                    onClick={() =>
+                      openEnquiry(product.name)
+                    }
                   >
                     Enquire
                   </button>
@@ -496,30 +683,44 @@ function App() {
         {filteredProducts.length === 0 && (
           <div className="no-products">
             <h3>No product found</h3>
-            <p>Try searching for another product.</p>
+            <p>
+              Try searching for another product.
+            </p>
           </div>
         )}
 
       </section>
 
       {/* FURNITURE FEATURE */}
-      <section className="furniture-section" id="furniture">
-
+      <section
+        className="furniture-section"
+        id="furniture"
+      >
         <div className="section-header">
-          <span className="section-tag">FURNITURE COLLECTION</span>
+          <span className="section-tag">
+            FURNITURE COLLECTION
+          </span>
+
           <h2>Furniture For Your Home</h2>
+
           <p>
-            Comfortable, stylish and durable furniture for every space.
+            Comfortable, stylish and durable furniture
+            for every space.
           </p>
         </div>
 
         <div className="furniture-grid">
 
           {products
-            .filter((product) => product.category === "furniture")
+            .filter(
+              (product) =>
+                product.category === "furniture"
+            )
             .map((product) => (
-              <div className="furniture-card" key={product.name}>
-
+              <div
+                className="furniture-card"
+                key={product.name}
+              >
                 <div className="furniture-image">
                   <span>{product.icon}</span>
                 </div>
@@ -532,9 +733,11 @@ function App() {
                   <p>{product.description}</p>
 
                   <button
-                    onClick={() => enquireOnWhatsApp(product.name)}
+                    onClick={() =>
+                      openEnquiry(product.name)
+                    }
                   >
-                    Enquire on WhatsApp →
+                    Enquire →
                   </button>
                 </div>
 
@@ -545,10 +748,14 @@ function App() {
       </section>
 
       {/* ABOUT */}
-      <section className="about-section" id="about">
-
+      <section
+        className="about-section"
+        id="about"
+      >
         <div className="about-image">
-          <div className="about-image-content">🏠</div>
+          <div className="about-image-content">
+            🏠
+          </div>
         </div>
 
         <div className="about-text">
@@ -564,22 +771,34 @@ function App() {
           </h2>
 
           <p>
-            Pandey Hardware is your one-stop destination for
-            hardware, plumbing, tools, plywood, paints, doors,
-            mica, boxes, tiles and furniture.
+            Pandey Hardware is your one-stop destination
+            for hardware, plumbing, tools, plywood, paints,
+            doors, mica, boxes, tiles and furniture.
           </p>
 
           <p>
-            We aim to provide quality products, competitive
-            prices and dependable service for homeowners,
-            contractors, builders and professionals.
+            We aim to provide quality products,
+            competitive prices and dependable service for
+            homeowners, contractors, builders and
+            professionals.
           </p>
 
           <div className="about-list">
-            <div><span>✓</span> Quality Products</div>
-            <div><span>✓</span> Competitive Prices</div>
-            <div><span>✓</span> Wide Product Range</div>
-            <div><span>✓</span> Customer Support</div>
+            <div>
+              <span>✓</span> Quality Products
+            </div>
+
+            <div>
+              <span>✓</span> Competitive Prices
+            </div>
+
+            <div>
+              <span>✓</span> Wide Product Range
+            </div>
+
+            <div>
+              <span>✓</span> Customer Support
+            </div>
           </div>
 
         </div>
@@ -587,8 +806,8 @@ function App() {
 
       {/* CTA */}
       <section className="cta-section">
-
         <div className="cta-content">
+
           <span>HAVE A REQUIREMENT?</span>
 
           <h2>
@@ -596,59 +815,89 @@ function App() {
           </h2>
 
           <p>
-            Contact us for product availability, pricing and enquiries.
+            Contact us for product availability,
+            pricing and enquiries.
           </p>
 
           <button
             className="btn primary-btn"
-            onClick={() => enquireOnWhatsApp("Product Enquiry")}
+            onClick={() =>
+              openEnquiry("Product Enquiry")
+            }
           >
-            Enquire on WhatsApp →
+            Send Enquiry →
           </button>
-        </div>
 
+        </div>
       </section>
 
       {/* CONTACT */}
-      <section className="contact-section" id="contact">
-
+      <section
+        className="contact-section"
+        id="contact"
+      >
         <div className="section-header">
-          <span className="section-tag">CONTACT US</span>
+
+          <span className="section-tag">
+            CONTACT US
+          </span>
+
           <h2>Get In Touch</h2>
+
           <p>
-            We are happy to help with your hardware and furniture requirements.
+            We are happy to help with your hardware
+            and furniture requirements.
           </p>
+
         </div>
 
         <div className="contact-grid">
 
           <div className="contact-card">
-            <div className="contact-icon">📞</div>
+            <div className="contact-icon">
+              📞
+            </div>
+
             <h3>Call Us</h3>
+
             <p>+91 8953655971</p>
           </div>
 
           <div className="contact-card">
-            <div className="contact-icon">💬</div>
+            <div className="contact-icon">
+              💬
+            </div>
+
             <h3>WhatsApp</h3>
+
             <p>Send us your enquiry</p>
 
             <button
-              onClick={() => enquireOnWhatsApp("General Enquiry")}
+              onClick={() =>
+                openEnquiry("General Enquiry")
+              }
             >
               WhatsApp Us
             </button>
           </div>
 
           <div className="contact-card">
-            <div className="contact-icon">📍</div>
+            <div className="contact-icon">
+              📍
+            </div>
+
             <h3>Visit Our Store</h3>
+
             <p>Your Business Address</p>
           </div>
 
           <div className="contact-card">
-            <div className="contact-icon">✉️</div>
+            <div className="contact-icon">
+              ✉️
+            </div>
+
             <h3>Email Us</h3>
+
             <p>your@email.com</p>
           </div>
 
@@ -663,7 +912,8 @@ function App() {
         </div>
 
         <p>
-          Quality Products • Trusted Service • Complete Solutions
+          Quality Products • Trusted Service •
+          Complete Solutions
         </p>
 
         <div className="footer-links">
@@ -678,7 +928,8 @@ function App() {
         <div className="footer-line"></div>
 
         <p className="copyright">
-          © 2026 Pandey Hardware & Furniture. All Rights Reserved.
+          © 2026 Pandey Hardware & Furniture.
+          All Rights Reserved.
         </p>
 
       </footer>
