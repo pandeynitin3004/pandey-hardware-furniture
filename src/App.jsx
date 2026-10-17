@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 function enquireOnWhatsApp(productName) {
-  const phoneNumber = "8953655971";
+  const phoneNumber = "918953655971";
 
   const message = `Hello Pandey Hardware, I want to enquire about ${productName}. Please share the price and availability.`;
 
